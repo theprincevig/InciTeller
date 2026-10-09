@@ -18,7 +18,7 @@ const storyRouter = require("./routes/story.routes.js");
 const profileRouter = require("./routes/profile.routes.js");
 
 const app = express();
-// app.set("trust proxy", 1);
+app.set("trust proxy", 1);
 
 // Middleware to handle CORS
 const corsOptions = {

@@ -1,4 +1,4 @@
-const { cloudinary } = require("../configs/cloudinary.config.js");
+const { cloudinary } = require("../configs/cloud.config.js");
 
 const FOLDER = "inciteller-cloudinary"; // must match the folder in the config
 

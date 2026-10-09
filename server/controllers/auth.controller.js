@@ -6,7 +6,7 @@ const {
 } = require("../validators/auth.validator.js");
 
 const COOKIE_NAME = "incitellerSid"; // must match session.config.js
-const BCRYPT_COST = 24;
+const BCRYPT_COST = 12;
 
 // Used when the email doesn't exist, so login takes about the same time either way.
 const DUMMY_HASH = bcrypt.hashSync("not-a-real-password", BCRYPT_COST);

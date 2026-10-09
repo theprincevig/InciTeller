@@ -3,16 +3,16 @@ const MongoStore = require("connect-mongo");
 
 const store = MongoStore.create({
   mongoUrl: process.env.ATLASDB_URI,
-  crypto: {
-    secret: process.env.SESSION_SECRET,
-  },
+  // Use a fresh collection to avoid incompatible sessions
+  // created by the previous encryption configuration.
+  collectionName: "inciteller_sessions_v2",
   touchAfter: 24 * 3600,
 }).on("error", (err) => console.log(`ERROR in Mongo session store: ${err}`));
 
 const sessionOptions = {
   name: "incitellerSid",
   store,
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {

@@ -21,7 +21,7 @@ const toInt = (value, fallback) => {
 // Load an story the logged-in user may modify, or respond with the right error.
 // Returns null if it already responded.
 const loadOwned = async (req, res) => {
-  const { storyId } = req.params.id;
+  const { storyId } = req.params;
   const userId = req.user._id;
 
   const story = await Story.findById(storyId);
@@ -49,7 +49,7 @@ module.exports.list = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .populate("owner", "name avatar"),
+      .populate("author", "name avatar"),
     Story.countDocuments(filter),
   ]);
 
@@ -65,10 +65,10 @@ module.exports.list = async (req, res) => {
 };
 
 module.exports.getOne = async (req, res) => {
-  const { storyId } = req.params.id;
+  const { storyId } = req.params;
   const userId = req.user._id;
 
-  const story = await Story.findById(storyId).populate("owner", "name avatar");
+  const story = await Story.findById(storyId).populate("author", "name avatar");
   const isAuthor =
     req.user && story && String(story.author._id) === String(userId);
 
@@ -122,7 +122,7 @@ module.exports.update = async (req, res) => {
       return;
     }
 
-    staleImages = applyStoryUpdates(req, story);
+    staleImages = applyStoryUpdates(story, req);
     if (!story.isModified()) return fail(res, 400, "Nothing to update");
 
     await story.save();

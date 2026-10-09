@@ -1,5 +1,5 @@
 const multer = require("multer");
-const { storage } = require("../configs/cloudinary.config.js");
+const { storage } = require("../configs/cloud.config.js");
 
 const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp"];
 

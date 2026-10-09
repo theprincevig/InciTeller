@@ -15,15 +15,15 @@ const applyStoryUpdates = (story, req) => {
   if (status !== undefined) story.status = status;
 
   // Remove the current image without replacing it
-  if (removeImage === "true" && story.contenImage) {
-    staleImages.push(story.contenImage);
-    story.contenImage = "";
+  if (removeImage === "true" && story.contentImage) {
+    staleImages.push(story.contentImage);
+    story.contentImage = "";
   }
 
   // New image uploaded
   if (req.file) {
-    if (story.contenImage) staleImages.push(story.contenImage);
-    story.contenImage = req.file.path;
+    if (story.contenImage) staleImages.push(story.contentImage);
+    story.contentImage = req.file.path;
   }
 
   return staleImages;
