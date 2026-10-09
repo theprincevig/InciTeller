@@ -1,0 +1,12 @@
+{
+  "name": "InciTeller",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "author": "Prince Vig",
+  "license": "ISC",
+  "scripts": {
+    "install-frontend": "npm install --prefix client",
+    "install-backend": "npm install --prefix server",
+    "build-frontend": "npm run build --prefix client"
+  }
+}
