@@ -9,7 +9,9 @@ module.exports.connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect(DB_URI);
+    const conn = await mongoose.connect(DB_URI, {
+      serverSelectionTimeoutMS: 10000, // give up after 10s instead of 30s
+    });
     console.log(`Connected to DB: --> ${conn.connection.name} <--`);
   } catch (error) {
     console.error(`connection failed ${error.message}`);

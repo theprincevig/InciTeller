@@ -10,6 +10,7 @@ const store = MongoStore.create({
 }).on("error", (err) => console.log(`ERROR in Mongo session store: ${err}`));
 
 const sessionOptions = {
+  name: "incitellerSid",
   store,
   secret: process.env.SESSION_SECRET,
   resave: false,
