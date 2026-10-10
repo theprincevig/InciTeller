@@ -81,7 +81,7 @@ Create a `.env` file inside the `server` directory.
 Configure the following variables:
 
 ```env
-PORT=5000
+PORT=3000
 CLIENT_URL=your_client_url_local/deployed
 ATLASDB_URI=your_mongodb_connection_string
 EXPRESS_SESSION_SECRET=your_session_secret
@@ -144,7 +144,7 @@ npm run dev
 The backend runs at:
 
 ```text
-http://localhost:5000
+http://localhost:3000
 ```
 
 ### 2. Start the Frontend
