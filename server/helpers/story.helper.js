@@ -22,7 +22,7 @@ const applyStoryUpdates = (story, req) => {
 
   // New image uploaded
   if (req.file) {
-    if (story.contenImage) staleImages.push(story.contentImage);
+    if (story.contentImage) staleImages.push(story.contentImage);
     story.contentImage = req.file.path;
   }
 
@@ -31,7 +31,7 @@ const applyStoryUpdates = (story, req) => {
 
 const deleteImages = (urls) => Promise.all(urls.map(destroyImage));
 
-const deleteStoryImage = (story) => destroyImage(story.contenImage);
+const deleteStoryImage = (story) => destroyImage(story.contentImage);
 
 // The upload runs BEFORE validation and ownership checks, so a rejected
 // request must delete the file it already uploaded.
