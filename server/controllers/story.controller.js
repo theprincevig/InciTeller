@@ -78,11 +78,20 @@ module.exports.getOne = async (req, res) => {
 module.exports.create = async (req, res) => {
   const userId = req.user._id;
 
+  console.log("========== STORY IMAGE DEBUG ==========");
+  console.log("Request body:", req.body);
+  console.log("Uploaded file:", req.file);
+  console.log("Image URL:", req.file?.path);
+  console.log("========================================");
+
   const parsed = createStorySchema.safeParse(req.body ?? {});
   if (!parsed.success) {
     await discardUpload(req);
     return fail(res, 400, parsed.error.issues[0].message);
   }
+
+  const imageUrl = req.file?.path;
+  console.log("Image URL before saving:", imageUrl);
 
   let story;
   try {
@@ -91,6 +100,8 @@ module.exports.create = async (req, res) => {
       contentImage: req.file?.path ?? "", // URL comes only from the upload
       author: userId, // owner comes only from the session
     });
+
+    console.log("Saved story image URL:", story.contentImage);
   } catch (err) {
     await discardUpload(req); // DB failed, so don't orphan the image
     throw err;
