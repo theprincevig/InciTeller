@@ -31,6 +31,11 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: "100kb" }));
 app.use(session(sessionOptions));
 
+const start = async () => {
+  await connectDB(); // must return the promise and throw on failure
+  app.listen(port, () => console.log(`Server listening on port ${port}`));
+};
+
 app.use("/api/auth", authRouter);
 app.use("/api/stories", storyRouter);
 app.use("/api/users", profileRouter);
@@ -51,8 +56,3 @@ start().catch((err) => {
   console.error("Failed to start server:", err.message); // message only, not the whole object
   process.exit(1);
 });
-
-const start = async () => {
-  await connectDB(); // must return the promise and throw on failure
-  app.listen(port, () => console.log(`Server listening on port ${port}`));
-};

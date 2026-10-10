@@ -15,7 +15,7 @@ const SAFE_USER = (user) => ({
   _id: user._id,
   name: user.name,
   email: user.email,
-  password: user.password,
+  avatar: user.avatar,
 });
 
 const FAIL = (res, status, message) =>
@@ -40,7 +40,7 @@ module.exports.session = async (req, res) => {
 };
 
 module.exports.register = async (req, res) => {
-  const parsed = registerSchema.safeParse(req.body);
+  const parsed = registerSchema.safeParse(req.body ?? {});
   if (!parsed.success) {
     return FAIL(res, 400, parsed.error.issues[0].message);
   }
@@ -70,7 +70,7 @@ module.exports.register = async (req, res) => {
 };
 
 module.exports.login = async (req, res) => {
-  const parsed = loginSchema.safeParse(req.body);
+  const parsed = loginSchema.safeParse(req.body ?? {});
   if (!parsed.success) return FAIL(res, 400, parsed.error.issues[0].message);
 
   const { email, password } = parsed.data;

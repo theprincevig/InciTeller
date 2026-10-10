@@ -55,22 +55,19 @@ module.exports.list = async (req, res) => {
 
   res.status(200).json({
     success: true,
-    data: {
-      stories,
-      page,
-      limit,
-      total,
-    },
+    stories,
+    page,
+    limit,
+    total,
   });
 };
 
 module.exports.getOne = async (req, res) => {
   const { storyId } = req.params;
-  const userId = req.user._id;
 
   const story = await Story.findById(storyId).populate("author", "name avatar");
   const isAuthor =
-    req.user && story && String(story.author._id) === String(userId);
+    req.user && story && String(story.author._id) === String(req.user._id);
 
   if (!story || (story.status !== "published" && !isAuthor)) {
     return fail(res, 404, "Story not found");
@@ -81,7 +78,7 @@ module.exports.getOne = async (req, res) => {
 module.exports.create = async (req, res) => {
   const userId = req.user._id;
 
-  const parsed = createStorySchema.safeParse(req.body);
+  const parsed = createStorySchema.safeParse(req.body ?? {});
   if (!parsed.success) {
     await discardUpload(req);
     return fail(res, 400, parsed.error.issues[0].message);
@@ -112,6 +109,9 @@ module.exports.update = async (req, res) => {
   if (Object.keys(parsed.data).length === 0 && !req.file) {
     return fail(res, 400, "Nothing to update");
   }
+
+  // from here on, the helper only sees validated fields
+  req.body = parsed.data;
 
   let story;
   let staleImages;
